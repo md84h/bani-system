@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import 'react-toastify/dist/ReactToastify.min.css'
+import Login from './containers/Login'
+import LoggedinPages from './LoggedinPages'
+
+export default function App() {
+	return (
+		<>
+			<ToastContainer
+				position="top-center"
+				autoClose={5000}
+				hideProgressBar
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+			/>
+			<Switch>
+				<Route path="/login" component={Login} />
+				<Route component={LoggedinPages} />
+			</Switch>
+		</>
+	)
 }
-
-export default App;
