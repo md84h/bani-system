@@ -11,12 +11,10 @@ import './index.css'
 // import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
-	<HashRouter>
-		<React.StrictMode>
-			<MuiPickersUtilsProvider utils={MomentUtils}>
-				<App />
-			</MuiPickersUtilsProvider>
-		</React.StrictMode>
+	<HashRouter basename='/'>
+		<MuiPickersUtilsProvider utils={MomentUtils}>
+			<App />
+		</MuiPickersUtilsProvider>
 	</HashRouter>,
 	document.getElementById('root')
 )
