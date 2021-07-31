@@ -1,21 +1,20 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import MomentUtils from '@date-io/moment'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
-// import { BrowserRouter } from 'react-router-dom'
-import { HashRouter } from 'react-router-dom'
 
+import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './index.css'
 
 // import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
-	<HashRouter basename='/'>
+	<BrowserRouter>
 		<MuiPickersUtilsProvider utils={MomentUtils}>
 			<App />
 		</MuiPickersUtilsProvider>
-	</HashRouter>,
+	</BrowserRouter>,
 	document.getElementById('root')
 )
 

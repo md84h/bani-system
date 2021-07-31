@@ -82,22 +82,22 @@ export default function AddLungiThan({employeeId, handleClose, values}) {
 				type="number"
 			/>
 			<TextField
-				required
-				value={state.weight}
-				error={errorType === 'weight'}
-				errorMsg={errorMsg}
-				name="weight"
-				label="Total Weight(Kg)"
-				onChange={handleOnChange}
-				type="number"
-			/>
-			<TextField
 				value={state.extraLungi}
 				error={errorType === 'extraLungi'}
 				errorMsg={errorMsg}
 				{...(errorType === 'extraLungi' ? { helperText: errorMsg } : {})}
 				name="extraLungi"
 				label="Extra Lungi Quantity"
+				onChange={handleOnChange}
+				type="number"
+			/>
+			<TextField
+				required
+				value={state.weight}
+				error={errorType === 'weight'}
+				errorMsg={errorMsg}
+				name="weight"
+				label="Total Weight(Kg)"
 				onChange={handleOnChange}
 				type="number"
 			/>

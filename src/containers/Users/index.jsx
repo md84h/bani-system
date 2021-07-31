@@ -32,6 +32,7 @@ export default function Users(props) {
 	const [loading, setLoading] = useState(false)
 	const [dialogDetails, setDialogDetails] = useState(false)
 	const [editDetails, setEditDetails] = useState(false)
+	const [deleteDetails, setDeleteDetails] = useState(false)
 	const [type, setType] = useState('THAN')
 	const [details, setDetails] = useState(null)
 	const [showModal, setShowModal] = useState(false)
@@ -91,6 +92,28 @@ export default function Users(props) {
 		setLoading(false)
 	}
 
+	const handleDelete = async () => {
+		setLoading(true)
+		const res = await fetch(`${API.API_URL}${type === 'CONE' || type === 'BHEEM' ? API.BANA_TANA_PATH : API.THAN_PATH}/${dialogDetails.id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+		if (res.ok) {
+			const deleteItem = await res.json()
+			if (deleteItem.error) {
+				toast.error(deleteItem.error)
+			} else {
+				toast.success(deleteItem.message)
+				handleOnDeleteClose(true)
+			}
+		} else {
+			toast.error('Something went wrong, Please try again!')
+		}
+		setLoading(false)
+	}
+
 	const handleEmployeeSelection = ({target: {value}}) => {
 		setActiveEmployee(value)
 		getDetails(value, product, type)
@@ -101,6 +124,7 @@ export default function Users(props) {
 	const handleCloseDetails = (isEdited = false) => {
 		setDialogDetails(false)
 		setEditDetails(false)
+		setDeleteDetails(false)
 		if (isEdited === true) {
 			getDetails(activeEmployee, product, type)
 		}
@@ -110,9 +134,23 @@ export default function Users(props) {
 		setEditDetails(true)
 	}
 
+	const deleteOpenCallback = () => {
+		setDeleteDetails(true)
+	}
+
 	const handleOnEditClose = (isEdited) => {
 		setEditDetails(false)
+		setDeleteDetails(false)
 		if (isEdited === true) {
+			setDialogDetails(false)
+			getDetails(activeEmployee, product, type)
+		}
+	}
+
+	const handleOnDeleteClose = (isDeleted) => {
+		setEditDetails(false)
+		setDeleteDetails(false)
+		if (isDeleted === true) {
 			setDialogDetails(false)
 			getDetails(activeEmployee, product, type)
 		}
@@ -225,7 +263,9 @@ export default function Users(props) {
 				heading="Details"
 				onClose={handleCloseDetails}
 				showEdit={dialogDetails.status !== 'DONE'}
+				showDelete={dialogDetails.status !== 'DONE'}
 				editOpenCallback={editOpenCallback}
+				deleteOpenCallback={deleteOpenCallback}
 			>
 				<ViewComponent
 					data={dialogDetails}
@@ -235,6 +275,15 @@ export default function Users(props) {
 					product={product}
 					handlePaymentDone={handlePaymentDone}
 				/>
+			</Modal>}
+			{deleteDetails && <Modal
+				heading="Confirm Delete"
+				onClose={handleOnDeleteClose}
+				handleAction={handleDelete}
+				actionLabel="Delete"
+				loadingAction={loading}
+			>
+				Are you sure, you want to delete?
 			</Modal>}
 		</div>
 	)

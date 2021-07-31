@@ -1,9 +1,10 @@
 import React from 'react'
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from '@material-ui/core'
 import { makeStyles, withStyles } from '@material-ui/core/styles'
-import { Close, Edit } from '@material-ui/icons'
+import { Close, Delete, Edit } from '@material-ui/icons'
 
 import color from './constant/color'
+import { getItem } from './helper/localStorage'
 
 const styles = (theme) => ({
 	root: {
@@ -14,13 +15,19 @@ const styles = (theme) => ({
 		position: 'absolute',
 		right: 8,
 		top: 8,
-		color: color.RED,
+		color: color.BLACK,
 	},
 	editButton: {
 		position: 'absolute',
 		right: 50,
 		top: theme.spacing(1),
 		color: color.BLUE,
+	},
+	deleteButton: {
+		position: 'absolute',
+		right: 90,
+		top: theme.spacing(1),
+		color: color.RED,
 	},
 	doneButton: {
 		position: 'absolute',
@@ -48,7 +55,12 @@ const styles = (theme) => ({
 })
 
 const DialogTitleX = withStyles(styles)((props) => {
-	const { children, classes, onClose, onEdit, showEdit, ...other } = props
+	const { children, classes, onClose, onEdit, showEdit, showDelete, onDelete, ...other } = props
+	const userRole = getItem('userRole')
+	let isAdmin = false
+	if (userRole) {
+		isAdmin = JSON.parse(userRole).includes('admin')
+	}
 	return (
 		<DialogTitle disableTypography className={classes.root} {...other}>
 			<Typography variant="h6">{children}</Typography>
@@ -58,6 +70,7 @@ const DialogTitleX = withStyles(styles)((props) => {
 				</IconButton>
 			) : null}
 			{showEdit && <IconButton aria-label="edit" className={classes.editButton} onClick={onEdit}><Edit /></IconButton>}
+			{showDelete && isAdmin && <IconButton aria-label="delete" className={classes.deleteButton} onClick={onDelete}><Delete /></IconButton>}
 		</DialogTitle>
 	)
 })
@@ -77,12 +90,23 @@ const DialogActionsX = withStyles((theme) => ({
 
 const useStyles = makeStyles(styles)
 
-export default function Modal({onClose, heading, showEdit, editOpenCallback, handleAction, actionLabel, loadingAction = false, children}) {
+export default function Modal({
+	onClose,
+	heading,
+	showEdit,
+	editOpenCallback,
+	handleAction,
+	actionLabel,
+	loadingAction = false,
+	children,
+	showDelete,
+	deleteOpenCallback
+}) {
 	const classes = useStyles()
 
 	return (
 		<Dialog onClose={onClose} aria-labelledby="customized-dialog-title" open className={classes.dialog}>
-			<DialogTitleX id="customized-dialog-title" onClose={onClose} onEdit={editOpenCallback} showEdit={showEdit}>
+			<DialogTitleX id="customized-dialog-title" onClose={onClose} onEdit={editOpenCallback} showEdit={showEdit} showDelete={showDelete} onDelete={deleteOpenCallback}>
 				{heading}
 			</DialogTitleX>
 			<DialogContentX dividers>

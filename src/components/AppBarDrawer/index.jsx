@@ -3,7 +3,8 @@ import { AppBar, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, List
 import { makeStyles } from '@material-ui/core/styles'
 import { ChevronLeft, Home, Menu, People } from '@material-ui/icons'
 import clsx from 'clsx'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
+
 
 import CONSTANT from '../constant/color'
 import { setCookie } from '../helper/cookie'
@@ -93,6 +94,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppBarDrawer({children}) {
 	const classes = useStyles()
+	const history = useHistory()
 	const [open, setOpen] = React.useState(false)
 
 	const handleDrawerOpen = () => {
@@ -112,7 +114,7 @@ export default function AppBarDrawer({children}) {
 	const handleLogout = () => {
 		console.log('handleLogout')
 		setCookie('userToken', '', -1)
-		window.location.href = '/login'
+		history.push('/login')
 	}
 
 	return (

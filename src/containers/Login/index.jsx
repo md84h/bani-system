@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, CircularProgress, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import API from '../../components/constant/api'
@@ -12,12 +13,13 @@ import styles from './styles'
 const useStyles = makeStyles(styles)
 
 export default function Login() {
+	const history = useHistory()
 	const [state, setState] = useState({username: '', password: ''})
 	const [loading, setLoading] = useState(false)
 
 	useEffect(() => {
 		if (getCookie('userToken')) {
-			window.location.href = '/'
+			history.push('/')
 		}
 	}, [])
 
@@ -50,7 +52,7 @@ export default function Login() {
 			} else {				
 				setItem('userRole', JSON.stringify(login.roles))
 				setCookie('userToken',login.token, 30)
-				window.location.href = '/'
+				history.push('/')
 			}
 		} else {
 			toast.error('Wrong username and password, Please try again!')
