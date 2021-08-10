@@ -1,9 +1,12 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { Button, CircularProgress, Divider, FormControl, FormControlLabel, Radio, RadioGroup } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
+import { Button, CircularProgress, FormControl, FormControlLabel, Grid, Paper, Radio, RadioGroup } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { toast } from 'react-toastify'
+import moment from 'moment'
+import {map} from 'lodash'
 
 import '../../App.css'
+import { getItem } from '../../components/helper/localStorage'
 import API from '../../components/constant/api'
 import Dropdown from '../../components/Dropdown'
 import Modal from '../../components/Modal'
@@ -18,6 +21,7 @@ import ViewBheem from './ViewBheem'
 import ViewChaukaThan from './ViewChaukaThan'
 import ViewCone from './ViewCone'
 import ViewLungiThan from './ViewLungiThan'
+import MultiplePayment from './MultiplePayment'
 
 const useStyles = makeStyles(styles)
 const TYPES_OPTS = {
@@ -205,56 +209,93 @@ export default function Users(props) {
 		}
 	}
 
+	const groupByWeek = data => data && data.reduce((acc, el) => {
+		const yearWeek = `${moment(el.date).year()}-${moment(el.date).isoWeekday(1).week()}`
+		if (!acc[yearWeek]) {
+			acc[yearWeek] = []
+		}
+		acc[yearWeek].push(el)
+		return acc
+
+	}, {})
+
+	const groupByDetails = groupByWeek(details)
 	const classes = useStyles()
 	const AddComponent =  getAddComponent()
 	const ViewComponent = getViewComponent()
+	const userRole = getItem('userRole')
+	let isAdmin = false
+	if (userRole) {
+		isAdmin = JSON.parse(userRole).includes('admin')
+	}
 	return (
 		<div className="App">
 			{loadingList ?
 				<CircularProgress />
 				: <>
 					{employeeList ? 
-						<Dropdown
-							name="activeEmployee"
-							label="Selected"
-							value={activeEmployee}
-							options={employeeList.map(employee => ({value: employee.id, name: employee.name}))}
-							onChange={handleEmployeeSelection}
-						/>
+						<Grid container>
+							<Grid item xs={12} md={3}>
+								<Dropdown
+									name="activeEmployee"
+									label="Selected"
+									value={activeEmployee}
+									options={employeeList.map(employee => ({value: employee.id, name: employee.name}))}
+									onChange={handleEmployeeSelection}
+								/>
+							</Grid>
+						</Grid>
+						
 						: <p>No Person Found!</p>}
 				</>}
 			{activeEmployee &&
-				<><Divider />
-					<FormControl component="fieldset">
-						<RadioGroup row aria-label="Product" name="product" value={product} onChange={handleProductChange}>
-							<FormControlLabel value="LUNGI" control={<Radio color="primary" />} label="Lungi" />
-							<FormControlLabel value="CHAUKA" control={<Radio color="primary" />} label="Chauka" />
-						</RadioGroup>
-					</FormControl>
-					<div className={classes.dropBtn}>
-						<div className={classes.dropdown}>
-							<Dropdown
-								name="type"
-								label="Type"
-								value={type}
-								options={TYPES_OPTS[product]}
-								onChange={handleChangeType}
-							/>
+				<>
+					<Paper className={classes.filter} elevation={0}>
+						<FormControl component="fieldset">
+							<RadioGroup row aria-label="Product" name="product" value={product} onChange={handleProductChange}>
+								<FormControlLabel value="LUNGI" control={<Radio color="primary" />} label="Lungi" />
+								<FormControlLabel value="CHAUKA" control={<Radio color="primary" />} label="Chauka" />
+							</RadioGroup>
+						</FormControl>
+						<div className={classes.dropBtn}>
+							<div className={classes.dropdown}>
+								<Dropdown
+									name="type"
+									label="Type"
+									value={type}
+									options={TYPES_OPTS[product]}
+									onChange={handleChangeType}
+								/>
+							</div>
+							<div className={classes.btn}>
+								<Button variant="contained" onClick={handleAddBtnClick} color="primary" disabled={false}>
+									{loading ? <CircularProgress size={25} /> : 'Add'}
+								</Button>
+							</div>
 						</div>
-						<div className={classes.btn}>
-							<Button variant="contained" onClick={handleAddBtnClick} color="primary" disabled={false}>
-								{loading ? <CircularProgress size={25} /> : 'Add'}
-							</Button>
-						</div>
-					</div>
-					
+					</Paper>
 					{loading ? <div><CircularProgress /></div> : <>
 						{details && details.length > 0 ?
-							details.map(data => (
-								<Fragment key={data.id}>
-									{type === 'THAN' || type === 'CHAUKA' ? <ThanList data={data} handleOpenDetails={handleOpenDetails(data)} /> : <TanaBanaList data={data} handleOpenDetails={handleOpenDetails(data)} />}
-								</Fragment>
-							)) : <p>No Data Found!</p>}
+							(
+								map(groupByDetails, (value, key) => (
+									<div key={key} className={classes.group}>
+										<div className={classes.weekBtn}>
+											<p className={classes.week}>Week - {key.split('-')[1]}</p>
+
+											<div className={classes.weekAction}>
+												{isAdmin && (type === 'THAN' || type === 'CHAUKA') && <MultiplePayment type={type} data={value} handleUpdate={handlePaymentDone} />}
+											</div>
+										</div>
+										<Grid container spacing={4}>
+											{value.map(data => (
+												<Grid key={data.id} item xs={12} md={6}>
+													{type === 'THAN' || type === 'CHAUKA' ? <ThanList data={data} handleOpenDetails={handleOpenDetails(data)} /> : <TanaBanaList data={data} handleOpenDetails={handleOpenDetails(data)} />}
+												</Grid>
+											))}
+										</Grid>
+									</div>
+								))
+							) : <p>No Data Found!</p>}
 					</>}
 					{showModal && <AddComponent employeeId={activeEmployee} handleClose={handleModalClose} product={product} />}
 				</>

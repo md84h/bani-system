@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 			duration: theme.transitions.duration.leavingScreen,
 		}),
 		marginLeft: -drawerWidth,
+		background: '#fafafa',
 	},
 	contentShift: {
 		transition: theme.transitions.create('margin', {
@@ -112,7 +113,6 @@ export default function AppBarDrawer({children}) {
 	}
 
 	const handleLogout = () => {
-		console.log('handleLogout')
 		setCookie('userToken', '', -1)
 		history.push('/login')
 	}

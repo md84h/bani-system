@@ -17,5 +17,44 @@ export default {
 		position: 'absolute',
 		bottom: 12,
 		right: 12,
+		zIndex: 1
+	},
+	avatar: {
+		fontSize: 16,
+		margin: '0 auto',
+		width: 30,
+		height: 30
+	},
+	name: {
+		textAlign: 'center',
+		margin: 8,
+		fontWeight: 400,
+		fontSize: 22
+	},
+	mobile: {
+		fontSize: 12,
+		margin: 0,
+		textAlign: 'center',
+		color: 'rgb(0 0 0 / 60%)',
+		fontWeight: 400
+	},
+	cardContent: {
+		paddingBottom: 0
+	},
+	link: {
+		color: COLOR.BLUE,
+		textDecoration: 'none',
+		marginLeft: 8,
+		fontWeight: 500
+	},
+	action: {
+		marginLeft: 'auto !important'
+	},
+	editButton: {
+		color: COLOR.GREEN,
+		padding: 8
+	},
+	deleteButton: {
+		color: COLOR.RED,
 	},
 }

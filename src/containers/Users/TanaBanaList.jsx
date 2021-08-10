@@ -12,7 +12,7 @@ export default function TanaBanaList({data, handleOpenDetails}) {
 	return (
 		<Paper elevation={3} className={`${classes.paper} ${data.type === 'CONE' ? classes.cone : classes.bheem}`} onClick={handleOpenDetails}>
 			<div className={classes.detailsItem}>
-				<p>{moment(data.date).format('Do MMM\'YY')}</p>
+				<p>{moment(data.date).format('Do MMM\'YY - ddd')}</p>
 				<p>{data.type}</p>
 			</div>
 			<div className={classes.detailsItem}>

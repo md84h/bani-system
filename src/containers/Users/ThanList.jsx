@@ -12,7 +12,7 @@ export default function ThanList({data, handleOpenDetails}) {
 	return (
 		<Paper elevation={3} className={`${classes.paper} ${data.status === 'DONE' ? classes.done : ''}`} onClick={handleOpenDetails}>
 			<div className={classes.detailsItem}>
-				<p>{moment(data.date).format('Do MMM\'YY')}</p>
+				<p>{moment(data.date).format('Do MMM\'YY - ddd')}</p>
 				<p>{data.product === 'LUNGI' ? 'Than' : 'Chauka'}</p>
 			</div>
 			<div className={`${classes.detailsItem} ${data.product === 'CHAUKA' && classes.chaukaDetails} ${data.extraLungi && classes.extraLungi}`}>

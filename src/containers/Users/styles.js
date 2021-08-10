@@ -41,7 +41,8 @@ export default {
 	},
 	paper: {
 		padding: 12,
-		marginTop: 12
+		marginTop: 12,
+		cursor: 'pointer'
 	},
 	detailsItem: {
 		'& p': {
@@ -98,15 +99,39 @@ export default {
 		marginTop: 10
 	},
 	dropdown: {
-		width: '60%',
+		width: 150,
 		display: 'inline-block'
 	},
 	btn: {
-		width: '40%',
-		display: 'inline-block',
-		textAlign: 'right'
+		float: 'right'
 	},
 	done: {
 		borderLeft: `4px solid ${COLOR.GREEN}`
+	},
+	group: {
+		border: '1px solid rgb(0 0 0 / 23%)',
+		padding: '16px 12px',
+		borderRadius: 4,
+		marginBottom: 16
+	},
+	week: {
+		margin: 0,
+		display: 'inline-block'
+	},
+	weekBtn: {
+		overflow: 'hidden'
+	},
+	weekAction: {
+		float: 'right',
+		'& p': {
+			color: 'rgb(0 0 0 / 80%)',
+			margin: 0
+		}
+	},
+	filter: {
+		padding: '0 12px',
+		marginBottom: 12,
+		background: '#f5f5f5',
+		border: '1px solid #e0e0e0'
 	}
 }
