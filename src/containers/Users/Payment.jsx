@@ -14,7 +14,8 @@ export default function Payment({id, computedAmount, handleUpdate }) {
 		paymentDate: new Date(),
 		computedAmount: computedAmount,
 		totalAmount: computedAmount,
-		comment: ''
+		comment: '',
+		cutPiece: 0
 	})
 	const [errorType, setErrorType] = useState('')
 	const [errorMsg, setErrorMsg] = useState('')
@@ -39,10 +40,10 @@ export default function Payment({id, computedAmount, handleUpdate }) {
 			setErrorMsg('Please add amount')
 			return
 		}
-    
-		if (state.totalAmount != computedAmount && !state.comment) {
-			setErrorType('comment')
-			setErrorMsg('Please add comment as total amount is not same as computed amount')
+
+		if (state.totalAmount != computedAmount && !state.cutPiece) {
+			setErrorType('cutPiece')
+			setErrorMsg('Please add cut piece')
 			return
 		}
 
@@ -54,7 +55,8 @@ export default function Payment({id, computedAmount, handleUpdate }) {
 			totalAmount: state.totalAmount,
 			paymentDate: state.paymentDate,
 			status: 'DONE',
-			comment: state.comment
+			comment: state.comment,
+			cutPiece: state.cutPiece
 		}
 		const res = await fetch(`${API.API_URL}${API.THAN_PATH}/${id}/pay`, {
 			method: 'POST',
@@ -105,13 +107,14 @@ export default function Payment({id, computedAmount, handleUpdate }) {
 					type="number"
 				/>
 				<TextField
-					required={state.totalAmount != computedAmount}
-					value={state.comment}
-					error={errorType === 'comment'}
+					required
+					value={state.cutPiece}
+					error={errorType === 'cutPiece'}
 					errorMsg={errorMsg}
-					name="comment"
-					label="Comment"
+					name="cutPiece"
+					label="Cut Piece"
 					onChange={handleOnChange}
+					type="number"
 				/>
 			</Modal>
 			}

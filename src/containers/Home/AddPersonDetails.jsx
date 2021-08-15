@@ -29,7 +29,7 @@ export default function AddPersonDetails({details, callback}) {
 			setValid(false)
 			return
 		}
-		if (!mobile || mobile.length !== 10) {
+		if (!mobile || mobile.toString().length !== 10) {
 			setValidMobile(false)
 			return
 		}

@@ -22,6 +22,7 @@ import ViewChaukaThan from './ViewChaukaThan'
 import ViewCone from './ViewCone'
 import ViewLungiThan from './ViewLungiThan'
 import MultiplePayment from './MultiplePayment'
+import OverallDetails from './OverallDetails'
 
 const useStyles = makeStyles(styles)
 const TYPES_OPTS = {
@@ -234,7 +235,7 @@ export default function Users(props) {
 				<CircularProgress />
 				: <>
 					{employeeList ? 
-						<Grid container>
+						<Grid container spacing={2}>
 							<Grid item xs={12} md={3}>
 								<Dropdown
 									name="activeEmployee"
@@ -244,8 +245,12 @@ export default function Users(props) {
 									onChange={handleEmployeeSelection}
 								/>
 							</Grid>
+							{isAdmin && activeEmployee &&
+								<Grid item xs={12} md={3}>
+									<OverallDetails employeeId={activeEmployee} />
+								</Grid>
+							}
 						</Grid>
-						
 						: <p>No Person Found!</p>}
 				</>}
 			{activeEmployee &&

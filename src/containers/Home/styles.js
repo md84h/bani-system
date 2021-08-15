@@ -42,13 +42,12 @@ export default {
 		paddingBottom: 0
 	},
 	link: {
-		color: COLOR.BLUE,
-		textDecoration: 'none',
-		marginLeft: 8,
-		fontWeight: 500
+		textDecoration: 'none'
 	},
 	action: {
-		marginLeft: 'auto !important'
+		position: 'absolute',
+		top: 8,
+		right: 4
 	},
 	editButton: {
 		color: COLOR.GREEN,
@@ -57,4 +56,7 @@ export default {
 	deleteButton: {
 		color: COLOR.RED,
 	},
+	container: {
+		position: 'relative'
+	}
 }

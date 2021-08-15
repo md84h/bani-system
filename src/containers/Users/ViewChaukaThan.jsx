@@ -30,7 +30,7 @@ export default function ViewChaukaThan({data, showEdit, onEditClose, activeEmplo
 						{data.status === 'DONE' ?
 							<>
 								<p><span>Amount Paid</span> &#x20b9; {Number(data.totalAmount).toLocaleString('en-IN')}</p>
-								{data.comment && <p><span>Comment</span>{data.comment}</p>}
+								{data.cutPiece > 0 && <p><span>Cut Piece</span>{data.cutPiece}</p>}
 							</>
 					
 							: <Payment id={data.id} computedAmount={computedAmount} handleUpdate={handlePaymentDone} />}

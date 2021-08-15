@@ -22,7 +22,8 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 		paymentDate: new Date(),
 		computedAmount: cAmount,
 		totalAmount: cAmount,
-		comment: ''
+		comment: '',
+		cutPiece: 0
 	})
 	const [errorType, setErrorType] = useState('')
 	const [errorMsg, setErrorMsg] = useState('')
@@ -48,9 +49,9 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 			return
 		}
     
-		if (state.totalAmount != cAmount && !state.comment) {
-			setErrorType('comment')
-			setErrorMsg('Please add comment as total amount is not same as computed amount')
+		if (state.totalAmount != cAmount && !state.cutPiece) {
+			setErrorType('cutPiece')
+			setErrorMsg('Please add cut piece.')
 			return
 		}
 
@@ -64,7 +65,8 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 				return {
 					id: details.id,
 					computedAmount: computedAmount,
-					totalAmount: tAmount
+					totalAmount: tAmount,
+					cutPiece: i === 0 ? state.cutPiece : 0
 				}
 			}),
 			paymentDate: state.paymentDate,
@@ -125,13 +127,14 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 					type="number"
 				/>
 				<TextField
-					required={state.totalAmount != cAmount}
-					value={state.comment}
-					error={errorType === 'comment'}
+					required
+					value={state.cutPiece}
+					error={errorType === 'cutPiece'}
 					errorMsg={errorMsg}
-					name="comment"
-					label="Comment"
+					name="cutPiece"
+					label="Cut Piece"
 					onChange={handleOnChange}
+					type="number"
 				/>
 			</Modal>
 			}

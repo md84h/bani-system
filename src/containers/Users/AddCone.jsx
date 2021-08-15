@@ -67,21 +67,21 @@ export default function AddCone({employeeId, handleClose, values, product}) {
 			/>
 			<TextField
 				required
-				value={state.weight}
-				error={errorType === 'weight'}
-				errorMsg={errorMsg}
-				name="weight"
-				label="Total Weight(Kg)"
-				onChange={handleOnChange}
-				type="number"
-			/>
-			<TextField
-				required
 				value={state.quantity}
 				error={errorType === 'quantity'}
 				errorMsg={errorMsg}
 				name="quantity"
 				label="Cone Quantity"
+				onChange={handleOnChange}
+				type="number"
+			/>
+			<TextField
+				required
+				value={state.weight}
+				error={errorType === 'weight'}
+				errorMsg={errorMsg}
+				name="weight"
+				label="Total Weight(Kg)"
 				onChange={handleOnChange}
 				type="number"
 			/>

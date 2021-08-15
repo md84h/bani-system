@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 
 import 'react-toastify/dist/ReactToastify.min.css'
 import Login from './containers/Login'
+import Print from './containers/Print'
 import LoggedinPages from './LoggedinPages'
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
 			/>
 			<Switch>
 				<Route path="/login" component={Login} />
+				<Route path="/print" component={Print} />
 				<Route component={LoggedinPages} />
 			</Switch>
 		</>

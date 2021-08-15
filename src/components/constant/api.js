@@ -4,5 +4,6 @@ export default {
 	BANA_TANA_PATH: 'cone-bheem',
 	THAN_PATH: 'than',
 	PERSON_PATH: 'employee',
-	DETAILS_PATH: 'details'
+	DETAILS_PATH: 'details',
+	OVERALL_PATH: 'overall-details'
 }
