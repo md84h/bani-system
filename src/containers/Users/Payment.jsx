@@ -7,15 +7,15 @@ import DatePicker from '../../components/DatePicker'
 import Modal from '../../components/Modal'
 import TextField from '../../components/TextField'
 
-export default function Payment({id, computedAmount, handleUpdate }) {
+export default function Payment({id, computedAmount, handleUpdate, preData = null }) {
 	const [showPayment, setShowPayment] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [state, setState] = useState({
 		paymentDate: new Date(),
 		computedAmount: computedAmount,
-		totalAmount: computedAmount,
+		totalAmount: preData ? preData.totalAmount : computedAmount,
 		comment: '',
-		cutPiece: 0
+		cutPiece: ''
 	})
 	const [errorType, setErrorType] = useState('')
 	const [errorMsg, setErrorMsg] = useState('')
@@ -41,12 +41,6 @@ export default function Payment({id, computedAmount, handleUpdate }) {
 			return
 		}
 
-		if (state.totalAmount != computedAmount && !state.cutPiece) {
-			setErrorType('cutPiece')
-			setErrorMsg('Please add cut piece')
-			return
-		}
-
 		setLoading(true)
 
 		const reqBody = {
@@ -56,7 +50,7 @@ export default function Payment({id, computedAmount, handleUpdate }) {
 			paymentDate: state.paymentDate,
 			status: 'DONE',
 			comment: state.comment,
-			cutPiece: state.cutPiece
+			...(state.cutPiece ? {cutPiece: state.cutPiece} : {})
 		}
 		const res = await fetch(`${API.API_URL}${API.THAN_PATH}/${id}/pay`, {
 			method: 'POST',
@@ -82,7 +76,7 @@ export default function Payment({id, computedAmount, handleUpdate }) {
 	return (
 		<>
 			<Button variant="contained" onClick={handleShowPayment} color="primary">
-				Pay
+				{preData ? 'Edit Payment' : 'Pay'}
 			</Button>
 			{showPayment && <Modal
 				heading="Payment"
@@ -107,10 +101,7 @@ export default function Payment({id, computedAmount, handleUpdate }) {
 					type="number"
 				/>
 				<TextField
-					required
 					value={state.cutPiece}
-					error={errorType === 'cutPiece'}
-					errorMsg={errorMsg}
 					name="cutPiece"
 					label="Cut Piece"
 					onChange={handleOnChange}

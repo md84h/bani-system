@@ -13,7 +13,7 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 		if (type === 'THAN') {
 			return (parseInt(current.quantity) * 11 * 13 + (current.extraLungi ? parseInt(current.extraLungi) * 13 : 0))
 		}
-		return parseInt(data.quantity) * 18
+		return parseInt(current.quantity) * 18
 	}
 	const cAmount = validDetails.reduce((acc, current) => acc + getCurrentAmount(current), 0)
 	const [showPayment, setShowPayment] = useState(false)
@@ -23,7 +23,7 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 		computedAmount: cAmount,
 		totalAmount: cAmount,
 		comment: '',
-		cutPiece: 0
+		cutPiece: ''
 	})
 	const [errorType, setErrorType] = useState('')
 	const [errorMsg, setErrorMsg] = useState('')
@@ -48,12 +48,6 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 			setErrorMsg('Please add amount')
 			return
 		}
-    
-		if (state.totalAmount != cAmount && !state.cutPiece) {
-			setErrorType('cutPiece')
-			setErrorMsg('Please add cut piece.')
-			return
-		}
 
 		setLoading(true)
 		let totalAmount = state.totalAmount
@@ -66,7 +60,7 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 					id: details.id,
 					computedAmount: computedAmount,
 					totalAmount: tAmount,
-					cutPiece: i === 0 ? state.cutPiece : 0
+					...(i === validDetails.length - 1 && state.cutPiece ? {cutPiece: state.cutPiece} : {})
 				}
 			}),
 			paymentDate: state.paymentDate,
@@ -127,10 +121,7 @@ export default function MultiplePayment({type, handleUpdate, data }) {
 					type="number"
 				/>
 				<TextField
-					required
 					value={state.cutPiece}
-					error={errorType === 'cutPiece'}
-					errorMsg={errorMsg}
 					name="cutPiece"
 					label="Cut Piece"
 					onChange={handleOnChange}
