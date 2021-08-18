@@ -11,11 +11,11 @@ export default function Payment({id, computedAmount, handleUpdate, preData = nul
 	const [showPayment, setShowPayment] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [state, setState] = useState({
-		paymentDate: new Date(),
+		paymentDate: preData ? new Date(preData.paymentDate) : new Date(),
 		computedAmount: computedAmount,
 		totalAmount: preData ? preData.totalAmount : computedAmount,
 		comment: '',
-		cutPiece: ''
+		cutPiece: preData ? preData.cutPiece : '',
 	})
 	const [errorType, setErrorType] = useState('')
 	const [errorMsg, setErrorMsg] = useState('')

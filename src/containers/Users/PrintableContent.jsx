@@ -32,6 +32,10 @@ export default class PrintableContent extends PureComponent {
 				value: `${Number(data.totalLungiBheemLength).toLocaleString('en-IN')} mtr`
 			},
 			{
+				name: 'Bheem Amount',
+				value: `Rs ${Number(data.totalLungiBheemAmount).toLocaleString('en-IN')}`
+			},
+			{
 				name: 'Cone',
 				value: Number(data.totalLungiCone).toLocaleString('en-IN')
 			},
@@ -112,6 +116,10 @@ export default class PrintableContent extends PureComponent {
 			{
 				name: 'Cut Piece',
 				value: `Rs ${Number(data.totalCutPieceAmount).toLocaleString('en-IN')}`
+			},
+			{
+				name: 'Bheem Amount',
+				value: `Rs ${Number(data.totalBheemAmount).toLocaleString('en-IN')}`
 			},
 			{
 				name: 'Paid',

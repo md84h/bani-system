@@ -13,6 +13,7 @@ export default function DatePicker({ value, onChange, label = 'Date' }) {
 	const classes = useStyles()
 	return (
 		<OriginalDatePicker
+			views={['year', 'month', 'date']}
 			label={label}
 			value={value}
 			onChange={onChange}

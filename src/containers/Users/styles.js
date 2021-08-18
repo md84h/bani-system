@@ -112,7 +112,8 @@ export default {
 		border: '1px solid rgb(0 0 0 / 23%)',
 		padding: '16px 12px',
 		borderRadius: 4,
-		marginBottom: 16
+		marginBottom: 16,
+		overflow: 'auto'
 	},
 	week: {
 		margin: 0,
@@ -133,5 +134,14 @@ export default {
 		marginBottom: 12,
 		background: '#f5f5f5',
 		border: '1px solid #e0e0e0'
+	},
+	total: {
+		float: 'right',
+		background: '#4050b5',
+		padding: '8px 16px',
+		borderRadius: 100,
+		color: 'white',
+		cursor: 'pointer',
+		marginTop: 8
 	}
 }

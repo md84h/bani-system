@@ -23,6 +23,7 @@ import ViewCone from './ViewCone'
 import ViewLungiThan from './ViewLungiThan'
 import MultiplePayment from './MultiplePayment'
 import OverallDetails from './OverallDetails'
+import ViewLungiThanTotal from './ViewLungiThanTotal'
 
 const useStyles = makeStyles(styles)
 const TYPES_OPTS = {
@@ -41,6 +42,7 @@ export default function Users(props) {
 	const [type, setType] = useState('THAN')
 	const [details, setDetails] = useState(null)
 	const [showModal, setShowModal] = useState(false)
+	const [showTotal, setShowTotal] = useState(false)
 
 	useEffect(() => {
 		getEmployeeList()
@@ -220,6 +222,8 @@ export default function Users(props) {
 
 	}, {})
 
+	const handleShowTotal = val => setShowTotal(val)
+
 	const groupByDetails = groupByWeek(details)
 	const classes = useStyles()
 	const AddComponent =  getAddComponent()
@@ -298,6 +302,7 @@ export default function Users(props) {
 												</Grid>
 											))}
 										</Grid>
+										<div className={classes.total} onClick={() => handleShowTotal(value)}>Total: {value.reduce((accumulated, current) => current.quantity + accumulated, 0)}</div>
 									</div>
 								))
 							) : <p>No Data Found!</p>}
@@ -309,7 +314,7 @@ export default function Users(props) {
 				heading="Details"
 				onClose={handleCloseDetails}
 				showEdit={dialogDetails.status !== 'DONE'}
-				showDelete={dialogDetails.status !== 'DONE'}
+				showDelete
 				editOpenCallback={editOpenCallback}
 				deleteOpenCallback={deleteOpenCallback}
 			>
@@ -331,6 +336,14 @@ export default function Users(props) {
 			>
 				Are you sure, you want to delete?
 			</Modal>}
+			{showTotal &&
+				<Modal
+					heading="Total"
+					onClose={() => setShowTotal(false)}
+				>
+					<ViewLungiThanTotal data={showTotal} />
+				</Modal>
+			}
 		</div>
 	)
 }
