@@ -4,6 +4,8 @@ export default {
 	BANA_TANA_PATH: 'cone-bheem',
 	THAN_PATH: 'than',
 	PERSON_PATH: 'employee',
+	PERSON_PURCHASE_PATH: 'employee/credit-debit',
 	DETAILS_PATH: 'details',
-	OVERALL_PATH: 'overall-details'
+	OVERALL_PATH: 'overall-details',
+	PURCHASE_PATH: 'credit-debit'
 }

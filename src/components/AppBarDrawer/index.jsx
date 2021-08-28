@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppBar, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { ChevronLeft, Home, Menu, People } from '@material-ui/icons'
+import { ChevronLeft, CreditCard, Home, Menu, People } from '@material-ui/icons'
 import clsx from 'clsx'
 import { NavLink, useHistory } from 'react-router-dom'
 
@@ -9,7 +9,7 @@ import { NavLink, useHistory } from 'react-router-dom'
 import CONSTANT from '../constant/color'
 import { setCookie } from '../helper/cookie'
 
-const drawerWidth = 150
+const drawerWidth = 195
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -171,6 +171,22 @@ export default function AppBarDrawer({children}) {
 							</ListItemIcon>
 							<ListItemText primary={'Users'} />
 						</ListItem>	
+					</NavLink>
+					<NavLink to="/purchase" className={classes.navLink} activeClassName={classes.selectedNavLink} onClick={handleDrawerClose}>
+						<ListItem button>
+							<ListItemIcon className={classes.listItemIcon}>
+								<CreditCard />
+							</ListItemIcon>
+							<ListItemText primary={'Purchase'} />
+						</ListItem>
+					</NavLink>
+					<NavLink to="/purchase-users" className={classes.navLink} activeClassName={classes.selectedNavLink} onClick={handleDrawerClose}>
+						<ListItem button>
+							<ListItemIcon className={classes.listItemIcon}>
+								<CreditCard />
+							</ListItemIcon>
+							<ListItemText primary={'Purchase Users'} />
+						</ListItem>
 					</NavLink>
 				</List>
 				<p className={classes.logout} onClick={handleLogout}>Logout</p>
